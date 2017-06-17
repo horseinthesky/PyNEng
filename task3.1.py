@@ -15,7 +15,7 @@ route_raw = "O        10.0.24.0/24 [110/41] via 10.0.13.3, 3d18h, FastEthernet0/
 
 commands = route_raw.split()
 
-print('Protocol: \t\t + commands[0])
+print('Protocol: \t\t' + commands[0])
 print('Prefix:\t\t\t' + commands[1])
 print('AD/Metric:\t\t' + commands[2].strip('[]'))
 print('Next-Hop:\t\t' + commands[4].strip(','))
