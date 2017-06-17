@@ -1,0 +1,6 @@
+#!/usr/bin/expect
+##
+set timeout 2
+spawn ssh -l spawn 192.168.0.14
+expect "spawn@192.168.0.14's password:" {send "Cee7pief\r"}
+
