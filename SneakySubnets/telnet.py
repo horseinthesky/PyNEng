@@ -13,4 +13,3 @@ connect.write(("admin\n").encode('ascii'))
 connect.write(("conf t\n").encode('ascii'))
 connect.write(("hostname R1\n").encode('ascii'))
 time.sleep(1)
-
