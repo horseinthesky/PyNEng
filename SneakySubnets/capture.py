@@ -16,4 +16,4 @@ connect.write(("sh ip int br\n").encode('ascii'))
 connect.write(("sh ip ro\n").encode('ascii'))
 time.sleep(1)
 
-print (connect.read_very_eager().decode('ascii'))
+print(connect.read_very_eager().decode('ascii'))
