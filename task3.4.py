@@ -18,7 +18,12 @@ command1 = "switchport trunk allowed vlan 1,3,10,20,30,100"
 command2 = "switchport trunk allowed vlan 1,3,100,200,300"
 
 """Решение"""
-vlan1_test = command1.split()
-vlan2_test = command2.split() 
+VLANS1 = command1.split()
+VLANS2 = command2.split()
 
+set1 = set(VLANS1[-1].split(','))
+set2 = set(VLANS2[-1].split(','))
 
+VLANS_set = set1.intersection(set2)
+VLANS_LIST = list(VLANS_set)
+print(sorted(VLANS_LIST))
