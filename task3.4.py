@@ -26,4 +26,4 @@ set2 = set(VLANS2[-1].split(','))
 
 VLANS_set = set1.intersection(set2)
 VLANS_LIST = list(VLANS_set)
-print(sorted(VLANS_LIST))
+print(VLANS_LIST)
