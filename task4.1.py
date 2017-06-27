@@ -24,13 +24,10 @@ ip2 = ip1[3].split('/')
 mask = ip2[1]
 mask_bin = '1' * int(mask) + '0' * (32 - int(mask))
 
-print(' ')
-print('Network:')
+print('\n' + 'Network:')
 print("{:8}  {:8}  {:8}  {:8}".format(ip1[0], ip1[1], ip1[2], ip2[0]))
 print("{:08b}  {:08b}  {:08b}  {:08b}".format(int(ip1[0]), int(ip1[1]), int(ip1[2]), int(ip2[0])))
 
-print(' ')
-print('Mask:') 
-print('/' + ip2[1])
+print('\n' + 'Mask:' + '\n' + '/' + ip2[1]) 
 print("{:8}  {:8}  {:8}  {:8}".format(int(mask_bin[:8], 2), int(mask_bin[8:16], 2), int(mask_bin[16:24], 2), int(mask_bin[24:], 2)))
 print("{:8}  {:8}  {:8}  {:8}".format(mask_bin[:8], mask_bin[8:16], mask_bin[16:24], mask_bin[24:]))
