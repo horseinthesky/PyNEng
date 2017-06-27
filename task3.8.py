@@ -22,4 +22,4 @@ IP = '192.168.3.1'
 """Решение"""
 num = IP.split('.')
 print("{:10} {:10} {:10} {:10}".format(num[0], num[1], num[2], num[3]))
-print("{:10} {:10} {:10} {:10}".format(bin(int(num[0], 10)), bin(int(num[1], 10)), bin(int(num[2], 10)), bin(int(num[3], 10))))
+print("{:10} {:10} {:10} {:10}".format(bin(int(num[0], 10))[2:], bin(int(num[1], 10))[2:], bin(int(num[2], 10))[2:], bin(int(num[3], 10))[2:]))

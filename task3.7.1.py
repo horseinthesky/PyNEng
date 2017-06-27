@@ -11,5 +11,6 @@ MAC = "AAAA:BBBB:CCCC"
 MAC = 'AAAA:BBBB:CCCC'
 
 """Решение"""
-mac_clean = bin(int(MAC.replace(':', ''), 16))[2:]
-print(mac_clean)
+mac_clean = MAC.replace(':', '')
+bin_mac = '{:b}'.format(int(mac_clean, 16))
+print(bin_mac)
