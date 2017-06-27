@@ -6,9 +6,8 @@ print('''
 ''')
 MAC = 'AAA:BBBB:CCCC'
 
-print(('MAC = '), MAC,'\n')
+print(('MAC = '), MAC, '\n')
 
 """Решение"""
 MAC_NEW = MAC.replace(':', '.')
 print(MAC_NEW)
-

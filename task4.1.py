@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 print("""
 Задание 4.1
@@ -15,4 +16,15 @@ Mask:
 11111111  11111111  11111111  00000000
 """)
 
+"""Решение"""
+ip = input('Введите IP-подсеть в формате: 10.1.1.0/24: \n')
+ip1 = ip.split('.')
+ip2 = ip1[3].split('/')
 
+mask = ip2[1]
+print('Network:')
+print("{:8} {:8} {:8} {:8}".format(ip1[0], ip1[1], ip1[2], ip2[0]), '\n')
+print("{:b} {:b} {:b} {:b}".format(int(ip1[0]), int(ip1[1]), int(ip1[2]), int(ip2[0])))
+
+print('Mask:', '\n', ip2[1])
+print("{:8b} {:8b} {:8b} {:8b}".format(int(ip1[0]), int(ip1[1]), ip1(num[2]), int(ip1[3])))
