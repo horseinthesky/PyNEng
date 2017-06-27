@@ -1,5 +1,5 @@
-#!/usr/bin/env python3                                                          
-# -*- coding: utf-8 -*- 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 print("""
 Задание 3.8
@@ -21,5 +21,6 @@ IP = '192.168.3.1'
 
 """Решение"""
 num = IP.split('.')
-print("{:10} {:10} {:10} {:10}".format(num[0], num[1], num[2], num[3]))
-print("{:10} {:10} {:10} {:10}".format(bin(int(num[0], 10))[2:], bin(int(num[1], 10))[2:], bin(int(num[2], 10))[2:], bin(int(num[3], 10))[2:]))
+print("{:9} {:9} {:9} {:9}".format(num[0], num[1], num[2], num[3]))
+print("{:09} {:09} {:09} {:09}".format(bin(int(num[0], 10))[2:], bin(
+    int(num[1], 10))[2:], bin(int(num[2], 10))[2:], bin(int(num[3], 10))[2:]))
