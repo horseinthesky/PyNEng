@@ -27,12 +27,12 @@ print(word_list)
 num = input('Введите элемент num_list: ')
 
 num_list.reverse()
-print('Номер последнего вхождения: {}'.format(len(num_list) - num_list.index(int(num)) - 1))
+print('Номер последнего вхождения:', len(num_list) - num_list.index(int(num)) - 1)
 
 word = input('\n' + 'Введите элемент word_list: ')
 
 word_list.reverse()
-print('Номер последнего вхождения: {}'.format(len(word_list) - word_list.index(word) - 1))
+print('Номер последнего вхождения:', len(word_list) - word_list.index(word) - 1)
 
 
 

@@ -44,6 +44,6 @@ london_co = {
 """Решение"""
 print(london_co, '\n')
 device = input('Введите название устройства: ')
-print(london_co['{}'.format(device)])
+print(london_co[device])
 
 
