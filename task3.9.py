@@ -1,7 +1,7 @@
 #!/usr/bin/env python3                                                          
 # -*- coding: utf-8 -*- 
 
-print("""
+"""
 Задание 3.9
 
 Найти индекс последнего вхождения элемента с конца.
@@ -16,10 +16,21 @@ print("""
 
 num_list = [10, 2, 30, 100, 10, 50, 11, 30, 15, 7]
 word_list = ['python', 'ruby', 'perl', 'ruby', 'perl', 'python', 'ruby', 'perl']
-""")
+"""
 
 num_list = [10, 2, 30, 100, 10, 50, 11, 30, 15, 7]
 word_list = ['python', 'ruby', 'perl', 'ruby', 'perl', 'python', 'ruby', 'perl']
+print(num_list)
+print(word_list)
 
 """Решение"""
+num = input('Введите элемент num_list: '
+
+num_list.reverse()
+print('Номер последнего вхождения: ', len(num_list) - num_list.index({}) - 1).format(num)
+
+word_list.reverse()
+print(len(word_list) - word_list.index("perl") - 1)
+
+
 

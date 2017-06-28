@@ -17,7 +17,12 @@ Mask:
 """
 
 """Решение"""
-ip = input('Введите IP-подсеть в формате: 10.1.1.0/24: \n')
+ip = 'ololo'
+
+while len(ip) != 11: 
+    ip = input('Введите IP-подсеть в формате: 10.1.1.0/24: \n')
+    print('Неверный формат')
+
 ip1 = ip.split('.')
 ip2 = ip1[3].split('/')
 
@@ -29,5 +34,5 @@ print("{:8}  {:8}  {:8}  {:8}".format(ip1[0], ip1[1], ip1[2], ip2[0]))
 print("{:08b}  {:08b}  {:08b}  {:08b}".format(int(ip1[0]), int(ip1[1]), int(ip1[2]), int(ip2[0])))
 
 print('\n' + 'Mask:' + '\n' + '/' + ip2[1]) 
-print("{:<8}  {:<8}  {:<8}  {:<8}".format(int(mask_bin[:8], 2), int(mask_bin[8:16], 2), int(mask_bin[16:24], 2), int(mask_bin[24:], 2)))
+print("{:8}  {:8}  {:8}  {:8}".format(int(mask_bin[:8], 2), int(mask_bin[8:16], 2), int(mask_bin[16:24], 2), int(mask_bin[24:], 2)))
 print("{:8}  {:8}  {:8}  {:8}".format(mask_bin[:8], mask_bin[8:16], mask_bin[16:24], mask_bin[24:]))
