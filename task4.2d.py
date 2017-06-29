@@ -46,10 +46,7 @@ london_co = {
 print(london_co, '\n')
 device = input('Enter device name: ')
 par = input('Enter parameter name {}: '.format(tuple(london_co[(device)].keys())))
-
-if par.lower() not in tuple(london_co[(device)].keys()):
-    print('Такого параметра нет')
-else:
-    print(london_co[device][par.lower()])
+    
+print(london_co[device].get(par.lower(), 'Такого параметра нет'))
 
 

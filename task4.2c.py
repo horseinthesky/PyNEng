@@ -51,9 +51,6 @@ print(london_co, '\n')
 device = input('Enter device name: ')
 par = input('Enter parameter name {}: '.format(tuple(london_co[(device)].keys())))
 
-if par not in tuple(london_co[(device)].keys()):
-    print('Такого параметра нет')
-else:
-    print(london_co[device][par])
+print(london_co[device].get(par, 'Такого параметра нет'))
 
 
