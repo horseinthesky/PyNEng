@@ -1,5 +1,5 @@
 
-R1#show run
+R9#show run
 Building configuration...
 
 Current configuration : 1061 bytes
@@ -9,7 +9,7 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname R1
+hostname R9
 !
 boot-start-marker
 boot-end-marker
@@ -68,7 +68,7 @@ redundancy
 !
 !
 interface Ethernet0/0
- ip address 10.10.30.1 255.255.255.0
+ ip address 10.10.30.9 255.255.255.0
 !
 interface Ethernet0/1
  no ip address
@@ -116,4 +116,4 @@ line vty 0 4
 !
 end
 
-R1#
+R9#

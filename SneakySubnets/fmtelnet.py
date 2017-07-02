@@ -3,10 +3,11 @@
 import telnetlib
 import time
 
-for x in range (1,11):
-    host = '10.10.30.' + str(x)
-    print(host + ' working')
-    tn = telnetlib.Telnet(host)
+hosts = open('hosts', 'r')
+for line in hosts:
+    line = line[:-1]
+    print(line + ' working')
+    tn = telnetlib.Telnet(line)
     tn.write(('admin\n').encode('ascii'))
     tn.write(('admin\n').encode('ascii'))
     tn.write(('\n').encode('ascii'))
@@ -15,6 +16,7 @@ for x in range (1,11):
     tn.write(('show run\n').encode('ascii'))
     time.sleep(1)
     z = tn.read_very_eager()
-    filename = 'Backups/' + host + '.txt'
+    filename = 'Backups/' + line + '.txt'
     file = open(filename, 'w')
     file.write((z).decode('ascii'))
+
