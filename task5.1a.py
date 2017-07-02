@@ -36,7 +36,8 @@ list = ip.split('.')
 while int(list[0]) > 255 and int(list[1]) > 255 and int(list[2]) > 255 and int(list[3]) > 255:
     print('Incorrect IPv4 address')
     ip = input('Введите IP адрес в формате 10.1.1.5: ') 
- 
+else:
+
 if int(list[0]) >= 1 and int(list[0]) <= 223:
     print('unicast')
 elif int(list[0]) >= 224 and int(list[0]) <= 239:
@@ -47,3 +48,4 @@ elif ip == '0.0.0.0':
     print('unassigned')
 else:
     print('unused')
+
