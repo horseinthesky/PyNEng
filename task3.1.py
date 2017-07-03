@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 print('''
 Задание 3.1
 Обработать строку ospf_route и вывести информацию в виде:
