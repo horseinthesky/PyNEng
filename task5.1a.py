@@ -33,32 +33,20 @@ ip = input('Введите IP адрес в формате 10.1.1.5: ')
 
 list = ip.split('.')
 
-pass_OK = False
-
-while not pass_OK:
-    if len(list) != 4:
-        print('Incorrect IPv4 address')
-        ip = input('Введите IP адрес в формате 10.1.1.5: ') 
-        list = ip.split('.')
-    elif not list[0].isdigit() or not list[1].isdigit() or not list[2].isdigit() or not list[3].isdigit():
-        print('Incorrect IPv4 address')
-        ip = input('Введите IP адрес в формате 10.1.1.5: ')
-        list = ip.split('.')
-    elif not 0 < int(list[0]) < 255 or not 0 < int(list[1]) < 255 or not 0 < int(list[2]) < 255 or not 0 < int(list[3]) < 255:
-        print('Incorrect IPv4 address')
-        ip = input('Введите IP адрес в формате 10.1.1.5: ')
-        list = ip.split('.')
-    else:
-        pass_OK = True
+if len(list) != 4:
+    print('Incorrect IPv4 address')
+elif not list[0].isdigit() or not list[1].isdigit() or not list[2].isdigit() or not list[3].isdigit():
+    print('Incorrect IPv4 address')
+elif not 0 < int(list[0]) < 255 or not 0 < int(list[1]) < 255 or not 0 < int(list[2]) < 255 or not 0 < int(list[3]) < 255:
+    print('Incorrect IPv4 address')
+elif int(list[0]) >= 1 and int(list[0]) <= 223:
+    print('unicast')
+elif int(list[0]) >= 224 and int(list[0]) <= 239:
+    print('multicast')
+elif ip == '255.255.255.255':
+    print('local broadcast')
+elif ip == '0.0.0.0':
+    print('unassigned')
 else:
-    if int(list[0]) >= 1 and int(list[0]) <= 223:
-        print('unicast')
-    elif int(list[0]) >= 224 and int(list[0]) <= 239:
-        print('multicast')
-    elif ip == '255.255.255.255':
-        print('local broadcast')
-    elif ip == '0.0.0.0':
-        print('unassigned')
-    else:
-        print('unused')
+    print('unused')
 
