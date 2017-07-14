@@ -20,6 +20,7 @@
 """Решение"""
 with open('CAM_table.txt', 'r') as f:
     for line in f:
-        if line and line.split()[0].isdigit():
-            vlan, mac, _, intf = line.split()
+        line = line.rstrip('\n').split()
+        if line and line[0].isdigit():
+            vlan, mac, _, intf = line
             print('{}    {}     {} '.format(vlan, mac, intf))

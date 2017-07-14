@@ -16,8 +16,7 @@ vl = input('Введите номер VLAN: ')
 with open('CAM_table.txt', 'r') as f:
     f = f.read().split('\n')
     for element in f:
-        if len(element.split()) == 0:
-            pass
-        elif vl == element.split()[0]:
-            vlan, mac, _, intf = element.split()
+        element = element.rstrip('\n').split()
+        if element and vl == element[0]:
+            vlan, mac, _, intf = element
             print('{}    {}     {} '.format(vlan, mac, intf))

@@ -13,8 +13,7 @@
 with open('CAM_table.txt', 'r') as f:
     f = sorted(f.read().split('\n'))
     for element in f:
-        if len(element.split()) == 0:
-            pass
-        elif element.split()[0].isdigit():
-            vlan, mac, _, intf = element.split()
+        element = element.rstrip('\n').split()
+        if element and element[0].isdigit():
+            vlan, mac, _, intf = element
             print('{}    {}     {} '.format(vlan, mac, intf))
