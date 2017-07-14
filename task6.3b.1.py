@@ -21,8 +21,8 @@ while True:
 with open('CAM_table.txt', 'r') as f:
     f = f.read().split('\n')
     for element in f:
-        if not vl in element[:5]:
+        if len(element.split()) == 0:
             pass
-        else:
+        elif vl == element.split()[0]:
             vlan, mac, _, intf = element.split()
             print('{}    {}     {} '.format(vlan, mac, intf))

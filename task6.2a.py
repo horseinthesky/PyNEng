@@ -17,7 +17,5 @@ config = argv[1]
 
 with open(config, 'r') as f:
     for line in f:
-        if line.startswith('!') or set(line.split()) & set(ignore) or 'Current configuration' in line:
-            pass
-        else:
+        if not (line.startswith('!') or set(line.split()) & set(ignore) or 'Current configuration' in line):
             print(line.rstrip())

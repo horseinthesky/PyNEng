@@ -20,8 +20,6 @@
 """Решение"""
 with open('CAM_table.txt', 'r') as f:
     for line in f:
-        if not 'aabb' in line:
-            pass
-        else:
+        if line and line.split()[0].isdigit():
             vlan, mac, _, intf = line.split()
             print('{}    {}     {} '.format(vlan, mac, intf))
