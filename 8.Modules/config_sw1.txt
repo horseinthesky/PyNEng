@@ -19,36 +19,45 @@ hostname sw1
 !
 !
 !
-interface Ethernet0/0
+interface FastEthernet0/0
+ switchport mode access
+ switchport access vlan 10
  duplex auto
 !
-interface Ethernet0/1
+interface FastEthernet0/1
  switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 100
+ switchport trunk allowed vlan 100,200
  switchport mode trunk
  duplex auto
- spanning-tree portfast edge trunk
 !
-interface Ethernet0/2
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 20
  duplex auto
 !         
-interface Ethernet0/3
+interface FastEthernet0/3
  switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 100
+ switchport trunk allowed vlan 100,300
  duplex auto
  switchport mode trunk
- spanning-tree portfast edge trunk
 !         
-interface Ethernet1/0
+interface FastEthernet1/0
+ switchport mode access
+ switchport access vlan 20
  duplex auto
 !
-interface Ethernet1/1
+interface FastEthernet1/1
+ switchport mode access
+ switchport access vlan 30
  duplex auto
 !
-interface Ethernet1/2
+interface FastEthernet1/2
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 400,500
+ switchport mode trunk
  duplex auto
 !
-interface Ethernet1/3
+interface FastEthernet1/3
  duplex auto
 !
 interface Vlan100
@@ -78,3 +87,4 @@ line vty 0 4
  transport input all
 !
 end
+

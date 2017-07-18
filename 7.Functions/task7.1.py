@@ -52,9 +52,9 @@ def generate_access_config(access):
         result.append('interface ' + intf,)
         for command in access_template:
             if command.endswith('access vlan'):
-                result.append('{} {}'.format(command, access[intf]))
+                result.append(' {} {}'.format(command, access[intf]))
             else:
-                result.append(command)
+                result.append(' {}'.format(command))
     return result
 
 

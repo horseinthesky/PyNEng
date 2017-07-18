@@ -51,9 +51,10 @@ def config_to_dict(config):
             if line.startswith('!') or ignore_command(line, ignore):
                 pass
             elif not line.startswith(' '):
+                group = line
                 config_dict[line] = []
-                if line.startswith(' '):
-                    config_dict[line].append(line)
+            elif line.startswith(' '):
+                config_dict[group].append(line)
 
     return config_dict
 
