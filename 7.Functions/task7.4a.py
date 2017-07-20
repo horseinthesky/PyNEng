@@ -59,7 +59,8 @@ def config_to_dict(config):
                     options = line
                     config_dict[section].append(line)
                 elif line.startswith('  '):
-                    config_dict[section] = { i: [] for i in config_dict[section] }
+                    if type(config_dict[section]) == list:
+                        config_dict[section] = { i: [] for i in config_dict[section] }
                     config_dict[section][options].append(line)
 
     return config_dict
