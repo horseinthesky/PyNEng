@@ -49,9 +49,7 @@ def parse_cfg(config):
                 if match:
                     if not interface in ip.keys():
                         ip[interface] = []
-                        ip[interface].append(match.groups())
-                    else:
-                        ip[interface].append(match.groups())
+                    ip[interface].append(match.groups())
     return ip
 
 print(parse_cfg('config_r2.txt'))
