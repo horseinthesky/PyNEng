@@ -17,4 +17,4 @@
 from task82 import parse_cdp_neighbors
 from draw_network_graph import draw_topology
 
-print(draw_topology(parse_cdp_neighbors('sw1_sh_cdp_neighbors.txt')))
+draw_topology(parse_cdp_neighbors('sw1_sh_cdp_neighbors.txt'))

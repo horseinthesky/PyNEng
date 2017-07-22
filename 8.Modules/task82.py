@@ -23,7 +23,7 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 """
 
 """Решение"""
-def parse_cdp_neighbors(config):
+def parse_cdp_neighbors(cdp):
     """
     Функция ожидает вывод команды show cdp neighbors
     на устройствах Cisco.
@@ -31,12 +31,13 @@ def parse_cdp_neighbors(config):
     Возвращает словарь, описывающий cdp соседства.
     """
     cdp_dict = {}
-    with open(config) as f:
-        el = f.read().split()
-        cdp_dict[tuple([el[0].split('>')[0], el[42] + el[43]])] = tuple([el[41], el[49] + el[50]])
-        cdp_dict[tuple([el[0].split('>')[0], el[52] + el[53]])] = tuple([el[51], el[59] + el[60]])
-        cdp_dict[tuple([el[0].split('>')[0], el[62] + el[63]])] = tuple([el[61], el[69] + el[70]])
+    for line in cdp.split('\n'):
+        if '>' in line:
+            hostname = line.split('>')[0]
+        elif '#' in line:
+            hostname = line.split('#')[0]
+        elif line and line.strip()[-1].isdigit():
+            r_host, l_int, l_int_num, *other, r_int, r_int_num = line.split()
+            cdp_dict[(hostname, l_int+l_int_num)] = (r_host, r_int+r_int_num)
 
     return cdp_dict
-
-print(parse_cdp_neighbors('sw1_sh_cdp_neighbors.txt'))
