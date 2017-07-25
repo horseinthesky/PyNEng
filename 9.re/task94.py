@@ -49,5 +49,3 @@ def parse_sh_ip_int_br(show):
             int_br_list.append(match.groups())
     
     return int_br_list
-
-print(parse_sh_ip_int_br('sh_ip_int_br.txt'))

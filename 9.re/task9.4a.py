@@ -35,9 +35,9 @@ def convert_to_dict(head, int_list):
     dict_list = []
     for el in result:
         x = {}
-        interface, ip, status, protocol = el
+        interface, address, status, protocol = el
         x[head[0]] = interface    
-        x[head[1]] = ip
+        x[head[1]] = address
         x[head[2]] = status
         x[head[3]] = protocol
         dict_list.append(x)
