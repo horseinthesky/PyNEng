@@ -29,4 +29,4 @@ with open(show, 'r') as f:
     for line in f:
         match = re.search(regex, line)
         if match:
-            print(match.group())
+            print(line.rstrip())

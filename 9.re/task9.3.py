@@ -24,7 +24,7 @@
 import re
 
 regex = ('ip address ' # Для исключения ненужного
-        '(\d+\.){3}\d '  # IP Address
+        '([0-9.]+) '   # IP Address
         '([\d.]+)')    # Subnet Mask
 
 def parse_cfg(config):
