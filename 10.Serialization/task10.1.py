@@ -44,7 +44,6 @@ def write_to_csv(filename, data):
         for row in data:
             writer.writerow(row)
 
-
 data = []
 data.append(headers)
 
