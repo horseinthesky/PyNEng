@@ -39,6 +39,13 @@ def parse_sh_version(output):
     return ios, image, uptime
 
 def write_to_csv(filename, data):
+    """
+    Функция ждёт имя файла и список списков с данными:
+     - в первом списке - заголовки
+     - в остальных данные по устройствам
+
+    Записывает данные в формате csv в файл и ничего не возвращает
+    """
     with open(filename, 'w') as w:
         writer = csv.writer(w)
         for row in data:
