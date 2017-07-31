@@ -5,7 +5,7 @@ import re
 
 template = ['edit', 'set subnet', 'next']
 
-regex402 = 'permit ip (10)\.([0-6])\.(\d+)\.(0) 0\.0\.([03])\.255'
+regex402 = 'permit ip (10)\.([0-6])\.(\d+)\.(0) 0\.0\.([037])\.255'
 regex583 ='permit ip (10)\.(128|129)\.(\d+)\.(0)'
 
 with open('402lists.txt') as f:
@@ -20,6 +20,8 @@ with open('402lists.txt') as f:
                     elif command.endswith('subnet'):
                         if '3' in match.group(5):
                             r.write(' {} {}{}{}{}{}{}{} {}'.format(command, match.group(1), '.', match.group(2), '.', match.group(3), '.', match.group(4), '255.255.252.0' + '\n'))
+                        elif '7' in match.group(5):
+                            r.write(' {} {}{}{}{}{}{}{} {}'.format(command, match.group(1), '.', match.group(2), '.', match.group(3), '.', match.group(4), '255.255.248.0' + '\n'))
                         else:
                             r.write(' {} {}{}{}{}{}{}{} {}'.format(command, match.group(1), '.', match.group(2), '.', match.group(3), '.', match.group(4), '255.255.255.0' + '\n'))          
                     else:

@@ -56,7 +56,7 @@ def generate_trunk_config(trunk):
         with open('sw_templates.yaml') as f:
             templates = yaml.load(f)
             for command in templates['trunk']:
-                if command.endswith('alloved vlan'):
+                if command.endswith('allowed vlan'):
                     vlans = ','.join(str(vlan) for vlan in trunk[intf])
                     result.append(' {} {}'.format(command, vlans))
                 else:
@@ -138,12 +138,10 @@ def generate_switch_config(access=True, psecurity=False, trunk=True,
         x = generate_alias_config('templates.yaml')
         result.extend(x)
 
+    return result
+
 # Сгенерировать конфигурации для разных коммутаторов:
 
 sw1 = generate_switch_config()
 sw2 = generate_switch_config(psecurity=True, alias=True)
 sw3 = generate_switch_config(ospf=False)
-
-print(sw1)
-print(sw2)
-print(sw3)
