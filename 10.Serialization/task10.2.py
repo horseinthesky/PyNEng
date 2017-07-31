@@ -83,12 +83,12 @@ def generate_mngmt_config(filename):
     filename - имя файла в формате YAML, в котором находится шаблон mngmt.
     Возвращает список всех команд, которые были сгенерированы на основе шаблона
     """
-    result = []                                  
-                                             
-    with open(filename) as f:                    
-	templates = yaml.load(f)                 
-	for command in templates['mngmt']:        
-	    result.append(command)  
+    result = []
+
+    with open(filename) as f:
+        templates = yaml.load(f)
+        for command in templates['mngmt']:
+            result.append(command)
 
     return result
 
@@ -97,12 +97,12 @@ def generate_alias_config(filename):
     filename - имя файла в формате YAML, в котором находится шаблон alias.
     Возвращает список всех команд, которые были сгенерированы на основе шаблона
     """
-    result = []                                  
-                                             
-    with open(filename) as f:                    
-	templates = yaml.load(f)                 
-	for command in templates['alias']:        
-	    result.append(command)  
+    result = []
+
+    with open(filename) as f:
+        templates = yaml.load(f)
+        for command in templates['alias']:
+            result.append(command)
 
     return result
 
@@ -114,7 +114,7 @@ def generate_switch_config(access=True, psecurity=False, trunk=True,
     Возвращает список всех команд, которые были сгенерированы на основе шаблона
     """
     result = []
-    
+
     if access:
         if psecurity:
             x = generate_access_config(access_dict, psecurity=True)
