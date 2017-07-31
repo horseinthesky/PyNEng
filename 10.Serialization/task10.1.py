@@ -55,7 +55,10 @@ data = []
 data.append(headers)
 
 for box in sh_version_files:
+    hostname = re.search('sh_version_(\S+)\.', box).group(1)
     with open(box) as f:
-        data.append(list(parse_sh_version(f)))
+        info = list(parse_sh_version(f))
+        info.insert(0, hostname)
+        data.append(info)
 
 write_to_csv('my_first_csv.csv', data)
