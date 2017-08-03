@@ -23,11 +23,11 @@ with open('nonsber.txt') as f:
                         if command.startswith('edit'):
                             r.write(command + ' {}'.format(i) + '\n')
                         elif command.endswith('set name'):
-                            r.write(command + ' NONSBER_VPN0402_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' NONSBER_VPN0402-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('srcaddr'):
-                            r.write(command + ' VPN0402_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' VPN0402-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('poolname'):
-                            r.write(command + ' PUBLIC_{}.{}.{}.{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
+                            r.write(command + ' PUBLIC-{}-{}-{}-{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
                         else:
                             r.write(command + '\n')
                     r.write('next' + '\n')
@@ -43,11 +43,11 @@ with open('sber402.txt') as f:
                         if command.startswith('edit'):
                             r.write(command + ' {}'.format(i) + '\n')
                         elif command.endswith('set name'):
-                            r.write(command + ' SB_VPN0402_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' SB_VPN0402-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('srcaddr'):
-                            r.write(command + ' VPN0402_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' VPN0402-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('poolname'):
-                            r.write(command + ' PUBLIC_{}.{}.{}.{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
+                            r.write(command + ' PUBLIC-{}-{}-{}-{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
                         else:
                             r.write(command + '\n')
                     r.write('next' + '\n')
@@ -64,11 +64,11 @@ with open('sber583.txt') as f:
                         if command.startswith('edit'):
                             r.write(command + ' {}'.format(i) + '\n')
                         elif command.endswith('set name'):
-                            r.write(command + ' SB_SMS_VPN0583_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' SB_SMS_VPN0583-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('srcaddr'):
-                            r.write(command + ' VPN0583_{}.{}.{}.{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
+                            r.write(command + ' VPN0583-{}-{}-{}-{}'.format(match.group(1), match.group(2), match.group(3), match.group(4)) + '\n')
                         elif command.endswith('poolname'):
-                            r.write(command + ' PUBLIC_{}.{}.{}.{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
+                            r.write(command + ' PUBLIC-{}-{}-{}-{}'.format(match.group(5), match.group(6), match.group(7), match.group(8)) + '\n')
                         else:
                             r.write(command + '\n')
                     r.write('next' + '\n')

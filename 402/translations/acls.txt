@@ -425,8 +425,8 @@ ip access-list extended NAT_VPN0402_10.2.232.0
 ip access-list extended NAT_VPN0402_10.2.236.0
  permit ip 10.2.236.0 0.0.0.255 any
  deny   ip any any
-ip access-list extended NAT_VPN0402_10.2.28.0
- permit ip 10.2.28.0 0.0.3.255 any
+ip access-list extended NAT_VPN0402_10.2.24.0
+ permit ip 10.2.24.0 0.0.7.255 any
  deny   ip any any
 ip access-list extended NAT_VPN0402_10.2.240.0
  permit ip 10.2.240.0 0.0.0.255 any
@@ -3268,18 +3268,14 @@ ip access-list extended NAT_VPN0402_10.5.95.0
 ip access-list extended NAT_VPN0402_10.5.96.0
  permit ip 10.5.96.0 0.0.0.255 any
  permit ip 10.128.165.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.5.97.0
  permit ip 10.5.97.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.5.98.0
  permit ip 10.5.98.0 0.0.0.255 any
  permit ip 10.129.72.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.5.99.0
  permit ip 10.5.99.0 0.0.0.255 any
  permit ip 10.129.186.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.6.0.0
  permit ip 10.6.0.0 0.0.0.255 any
 ip access-list extended NAT_VPN0402_10.6.1.0
@@ -3292,13 +3288,10 @@ ip access-list extended NAT_VPN0402_10.6.12.0
  permit ip 10.6.12.0 0.0.0.255 any
 ip access-list extended NAT_VPN0402_10.6.13.0
  permit ip 10.6.13.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.6.14.0
  permit ip 10.6.14.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.6.15.0
  permit ip 10.6.15.0 0.0.0.255 any
- deny   ip any any
 ip access-list extended NAT_VPN0402_10.6.16.0
  permit ip 10.6.16.0 0.0.0.255 any
 ip access-list extended NAT_VPN0402_10.6.17.0
@@ -3329,11 +3322,3 @@ ip access-list extended NAT_VPN0402_10.6.9.0
  permit ip 10.6.9.0 0.0.0.255 any
 ip access-list extended NAT_VPN0402_10.90.90.0
  permit ip 10.90.90.0 0.0.0.255 any
- deny   ip any any
-ip access-list extended NAT_VPN0402_rev
- permit ip host 10.1.7.62 any
-ip access-list extended NAT_VPN0402_rev2
- permit ip host 10.1.7.63 any
-ip access-list extended NAT_VPN0402_reva
- permit ip host 10.1.7.229 any
- match ip address NAT_VPN0402_10.2.40.0
