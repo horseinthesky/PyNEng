@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -73,3 +74,45 @@ $ python get_data.py vlan
 
 """
 
+"""Решение"""
+import sqlite3
+import sys
+
+db_filename = 'dhcp_snooping.db'
+
+if len(sys.argv) == 1:
+    with sqlite3.connect(db_filename) as conn:
+        print('\nВ таблице dhcp такие записи:')
+        print ('-' * 40)
+        cursor = conn.cursor()
+        cursor.execute('select * from dhcp;')
+        while True:
+            next_row = cursor.fetchone()
+            if next_row:
+                if next_row[2].isdigit():
+                    mac, ip, vlan, interface, switch = list(next_row)
+                    print('{:17}  {:15}  {:4}  {:16}  {3}'.format(mac, ip, vlan, interface, switch))
+            else:
+                break
+
+if len(sys.argv) == 3:
+    with sqlite3.connect(db_filename) as conn:
+        key, value = sys.argv[1:]
+        keys = ['mac', 'ip', 'vlan', 'interface']
+        keys.remove(key)
+       #Позволяет далее обращаться к данным в колонках, по имени колонки
+        conn.row_factory = sqlite3.Row
+
+        print ("\nDetailed information for host(s) with", key, value)
+        print ('-' * 40)
+
+        query = "select * from dhcp where {} = ?".format( key )
+        result = conn.execute(query, (value,))
+
+        for row in result:
+            for k in keys:
+                print ("{:12}: {}".format(k, row[k]))
+            print ('-' * 40)
+
+if len(sys.argv) != 1 and len(sys.argv) != 3:
+    print('Script is only support two or no arguments')

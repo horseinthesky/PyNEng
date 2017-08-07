@@ -1,80 +1,48 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-Задание 11.1
-
-* add_data.py
- * с помощью этого скрипта, мы будем добавлять данные в БД
-  * теперь у нас есть не только данные из вывода sh ip dhcp snooping binding,
-    но и информация о коммутаторах
-
-Соответственно, в файле add_data.py у нас будет две части:
-* запись информации о коммутаторах в таблицу switches
- * данные о коммутаторах, находятся в файле switches.yml
-* запись информации на основании вывода sh ip dhcp snooping binding
- * теперь у нас есть вывод с трёх коммутаторов:
-   * файлы sw1_dhcp_snooping.txt, sw2_dhcp_snooping.txt, sw3_dhcp_snooping.txt
- * так как таблица dhcp изменилась, и в ней теперь присутствует поле switch,
-   нам нужно его заполнять. Имя коммутатора мы определяем по имени файла с данными
-
-"""
+#-*- coding: utf-8 -*-
 
 import glob
-
-db_filename = 'dhcp_snooping.db'
-dhcp_snoop_files = glob.glob('sw*_dhcp_snooping.txt')
-#print dhcp_snoop_files
-
-"""Решение"""
 import re
 import sqlite3
 import yaml
-import pprint
 
-con = sqlite3.connect(db_filename)
+db_filename = 'dhcp_snooping.db'
+dhcp_snoop_files = glob.glob('sw*_dhcp_snooping.txt')
+regex = re.compile('(\S+) +(\S+) +\d+ +\S+ +(\d+) +(\S+)')
 
-regex = '(\S+) +(\S+) +\d+ +\S+ +(\d+) +(\S+)'
+def parse_dhcp_snoop(filename):
+    sw = filename.split('_')[0]
+    with open(filename) as f:
+        result = [match.groups()+(sw,) for match in regex.finditer(f.read())]
+    return result
 
-switches_data = []
+def add_data(db, query, data):
+    connection = sqlite3.connect(db)
+    try:
+        with connection:
+            connection.executemany(query,data)
+    except sqlite3.IntegrityError as err:
+        print('Error occured:', err)
+        from pprint import pprint
+        print('Error caused by data:')
+        pprint(data)
+    finally:
+        connection.close()
 
-with open('switches.yml') as f:
-    switches = yaml.load(f)
-    for sw in switches['switches']:
-        x = (sw, switches['switches'][sw])
-        switches_data.append(x)
+def add_sw_data(db_name, sw_data_file):
+    query_switches = 'insert into switches values (?,?)'
+    with open(sw_data_file) as f:
+        switches = yaml.load(f)
+        sw_data = list(switches['switches'].items())
+        add_data(db_name, query_switches, sw_data)
 
-dhcp_data = []
+def add_dhcp_data(db_name, data_files):
+    query = "insert into dhcp values (?, ?, ?, ?, ?)"
+    for filename in data_files:
+        result = parse_dhcp_snoop(filename)
+        add_data(db_name, query, result)
 
-for box in dhcp_snoop_files:
-    with open(box) as f:
-        hostname = box.split('_')[0]
-        for line in f:
-            match = re.search(regex, line)
-            if match:
-                b = [i for i in match.groups()]
-                b.append(hostname)
-                dhcp_data.append(tuple(b))
+if __name__ == '__main__':
+    add_sw_data(db_filename, 'switches.yml')
+    add_dhcp_data(db_filename, dhcp_snoop_files)
 
-def insert_switches_data():
-    for row in switches_data:
-        try:
-            with con:
-                query = """insert into switches (hostname, location)
-                        values (?, ?)"""
-                con.execute(query, row)
-        except sqlite3.IntegrityError as e:
-            print('Error occured: ', e)
-
-def insert_dhcp_data():
-    for row in dhcp_data:
-        try:
-            with con:
-                query = """insert into dhcp (mac, ip, vlan, interface, switch)
-                        values (?, ?, ?, ?, ?)"""
-                con.execute(query, row)
-        except sqlite3.IntegrityError as e:
-            print("Error occured: ", e)
-
-insert_switches_data()
-insert_dhcp_data()
