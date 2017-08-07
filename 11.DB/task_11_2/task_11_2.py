@@ -90,8 +90,8 @@ if len(sys.argv) == 1:
             next_row = cursor.fetchone()
             if next_row:
                 if next_row[2].isdigit():
-                    mac, ip, vlan, interface, switch = list(next_row)
-                    print('{:17}  {:15}  {:4}  {:16}  {3}'.format(mac, ip, vlan, interface, switch))
+                    mac, ip, vlan, interface, switch = next_row
+                    print('{:17}  {:15}  {:4}  {:16}  {:3}'.format(mac, ip, vlan, interface, switch))
             else:
                 break
 
