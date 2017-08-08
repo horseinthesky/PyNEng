@@ -92,21 +92,24 @@ def print_all_table(db):
 def print_exact_data(db):
     with sqlite3.connect(db) as conn:                               
         key, value = sys.argv[1:]                                            
-        keys = ['mac', 'ip', 'vlan', 'interface']                            
-        keys.remove(key)                                                     
-       #Позволяет далее обращаться к данным в колонках, по имени колонки     
-        conn.row_factory = sqlite3.Row                                       
-                                                                             
-        print ("\nDetailed information for host(s) with", key, value)        
-        print ('-' * 40)                                                     
-                                                                             
-        query = "select * from dhcp where {} = ?".format( key )              
-        result = conn.execute(query, (value,))                               
-                                                                             
-        for row in result:                                                   
-            for k in keys:                                                   
-                print ("{:12}: {}".format(k, row[k]))                        
-            print ('-' * 40)                                                 
+        keys = ['mac', 'ip', 'vlan', 'interface', 'switch']                            
+        if not key in keys:
+            print("""Данный параметр не поддерживается.\nДопустимые значения параметров: mac, ip, vlan, interface, switch""")
+        else:
+            keys.remove(key)                                                     
+            #Позволяет далее обращаться к данным в колонках, по имени колонки     
+            conn.row_factory = sqlite3.Row                                       
+                                                                                 
+            print ("\nDetailed information for host(s) with", key, value)        
+            print ('-' * 40)                                                     
+                                                                                 
+            query = "select * from dhcp where {} = ?".format( key )              
+            result = conn.execute(query, (value,))                               
+                                                                                 
+            for row in result:                                                   
+                for k in keys:                                                   
+                    print ("{:12}: {}".format(k, row[k]))                        
+                print ('-' * 40)                                                 
 
 if len(sys.argv) == 1:
    print_all_table(db_filename)
