@@ -32,21 +32,23 @@ def get_data_by_key_value(db_name, key, value):
     connection = sqlite3.connect(db_name)
     connection.row_factory = sqlite3.Row
 
-    query = "select * from dhcp where {} = ?".format(key)
-    result = connection.execute(query, (value,))
+    query_all = 'select * from dhcp;'
+    keys = connection.execute(query_all).fetchone().keys()
 
-    print('\nDetailed information for host(s) with', key, value)
-    print('-'*40)
-    for row in result:
-        keys = row.keys()
-        if not key in keys:
-            print("""Данный параметр не поддерживается.
-                    Допустимые значения параметров: mac, ip, vlan, interface, switch""")
-        else:
-            keys.remove(key)
+    if not key in keys:
+        print('Данный параметр не поддерживается.',
+              'Допустимые значения параметров: {}'.format(', '.join(keys)),
+              sep='\n')
+    else:
+        keys.remove(key)
+        query = "select * from dhcp where {} = ?".format(key)
+        result = connection.execute(query, (value,))
+        print('\nDetailed information for host(s) with', key, value)
+        print('-'*80)
+        for row in result:
             for k in keys:
                 print('{:12}: {}'.format(k, row[k]))
-            print('-'*40)
+            print('-'*80)
 
 def get_all_data(db_name):
     f = '{:17}  {:17} {:4}  {:17}  {:17}'

@@ -94,7 +94,7 @@ def print_exact_data(db):
         key, value = sys.argv[1:]                                            
         keys = ['mac', 'ip', 'vlan', 'interface', 'switch']                            
         if not key in keys:
-            print("""Данный параметр не поддерживается.\nДопустимые значения параметров: mac, ip, vlan, interface, switch""")
+            print('Данный параметр не поддерживается.\nДопустимые значения параметров: {}'.format(', '.join(keys)))
         else:
             keys.remove(key)                                                     
             #Позволяет далее обращаться к данным в колонках, по имени колонки     

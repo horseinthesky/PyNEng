@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Задание 11.1a
-
-Добавить в файл add_data.py, из задания 11.1, проверку на наличие БД:
-* если файл БД есть, записать данные
-* если файла БД нет, вывести сообщение, что БД нет и её необходимо сначала создать
-
+Задание 11.3
 """
 import glob
 import re
@@ -22,7 +17,7 @@ regex = re.compile('(\S+) +(\S+) +\d+ +\S+ +(\d+) +(\S+)')
 def parse_dhcp_snoop(filename):
     sw = filename.split('_')[0]
     with open(filename) as f:
-        result = [match.groups()+(sw,) for match in regex.finditer(f.read())]
+        result = [match.groups()+(sw,) + (1,) for match in regex.finditer(f.read())]
     return result
 
 def add_data(db, query, data):                                  
@@ -42,16 +37,23 @@ def add_data(db, query, data):
     else:                                                       
         print('Database doesn\'t exists. Please create it first.') 
 
+def update_dhcp_data(filename, db):
+    sw = filename.split('_')[0]
+    update_query = 'update dhcp set active = "0" where switch = (?)'
+    with sqlite3.connect(db) as conn:
+        conn.execute(update_query, (sw,))
+
 def add_sw_data(db_name, sw_data_file):
-    query_switches = 'insert into switches values (?,?)'
+    query_switches = 'replace into switches values (?,?)'
     with open(sw_data_file) as f:
         switches = yaml.load(f)
         sw_data = list(switches['switches'].items())
         add_data(db_name, query_switches, sw_data)
 
 def add_dhcp_data(db_name, data_files):
-    query = "insert into dhcp values (?, ?, ?, ?, ?)"
+    query = "replace into dhcp values (?, ?, ?, ?, ?, ?)"
     for filename in data_files:
+        update = update_dhcp_data(filename, db_name) 
         result = parse_dhcp_snoop(filename)
         add_data(db_name, query, result)
 
