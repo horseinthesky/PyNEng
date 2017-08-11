@@ -26,9 +26,6 @@ import os
 import datetime
 from datetime import timedelta, datetime
 
-now = datetime.today().replace(microsecond=0)
-week_ago = now - timedelta(days = 7)
-
 date = str(datetime.today().replace(microsecond=0))
 db_filename = 'dhcp_snooping.db'
 dhcp_snoop_files = glob.glob('sw*_dhcp_snooping.txt')
@@ -66,6 +63,7 @@ def update_dhcp_data(filename, db):
 def delete_old_data(db_name, amount_of_days):
     query_all = 'select * from dhcp'
     delete_query = 'delete from dhcp where last_active = ?'
+    now = datetime.today().replace(microsecond=0)
     with sqlite3.connect(db_name) as conn:
         conn.row_factory = sqlite3.Row
         keys = conn.execute(query_all).fetchone().keys()
@@ -85,6 +83,11 @@ def delete_old_data(db_name, amount_of_days):
         for el in old_data:
             conn.execute(delete_query, (el,))
 
+def not_empty_table():
+    query = 'select * from dhcp'
+    not_empty = sqlite3.connect(db_filename).execute(query).fetchone()
+    return not_empty
+
 def add_sw_data(db_name, sw_data_file):
     query_switches = 'replace into switches values (?,?)'
     with open(sw_data_file) as f:
@@ -95,13 +98,13 @@ def add_sw_data(db_name, sw_data_file):
 def add_dhcp_data(db_name, data_files):
     query = "replace into dhcp values (?, ?, ?, ?, ?, ?, ?)"
     for filename in data_files:
-        if sqlite3.connect(db_filename).execute('select * from dhcp').fetchone():
-            update = update_dhcp_data(filename, db_name) 
+        if not_empty_table:
+            update_dhcp_data(filename, db_name) 
         result = parse_dhcp_snoop(filename)
         add_data(db_name, query, result)
 
 if __name__ == '__main__':
-    if sqlite3.connect(db_filename).execute('select * from dhcp').fetchone():
+    if not_empty_table:
         delete_old_data(db_filename, 7)
     add_sw_data(db_filename, 'switches.yml')
     add_dhcp_data(db_filename, dhcp_snoop_files)
