@@ -12,7 +12,6 @@ dhcp_snoop_files = glob.glob('sw*_dhcp_snooping.txt')
 def create_db(db_name, schema):
     db_exists = os.path.exists(db_name)
     if not db_exists:
-        print('Creating schema...')
         with open(schema, 'r') as f:
             schema_f = f.read()
             connection = sqlite3.connect(db_name)
@@ -22,15 +21,42 @@ def create_db(db_name, schema):
     else:
         print('Database exists, assume dhcp table does, too.')
 
+def parse_dhcp_snoop(filename):
+    regex = re.compile('(\S+) +(\S+) +\d+ +\S+ +(\d+) +(\S+)')
+    sw = filename.split('_')[0]
+    with open(filename) as f:
+        result = [match.groups()+(sw,) for match in regex.finditer(f.read())]
+    return result
+
 def add_data_switches(db_name, switches_list):
     query_switches = 'replace into switches values (?,?)'
     for sw in switches_list:
         with open(sw) as f:
             switches = yaml.load(f)
             sw_data = list(switches['switches'].items())
-            add_data(db_name, query_switches, sw_data)
+            add_custom_data(db_name, query_switches, sw_data)
 
-def add_data(db, query, data): 
+def delete_old_data(conn):
+    now = datetime.today().replace(microsecond=0)
+    week_ago = str(now - timedelta(days = 7))
+    query = "delete from dhcp where last_active < ?"
+    conn.execute(query, (week_ago,))
+    conn.commit()
+
+def add_data(db_name, data_files):
+    connection = sqlite3.connect(db_name)
+    delete_old_data(connection)
+    connection.execute('update dhcp set active = 0')
+    connection.commit()
+    query = 'replace into dhcp values (?, ?, ?, ?, ?, ?, ?)'
+    for filename in data_files:
+        result = parse_dhcp_snoop(filename)
+        now = str(datetime.today().replace(microsecond=0))
+        updated_result = (row+(1, now) for row in result)
+        add_custom_data(db_name, query, updated_result)
+    connection.close()
+
+def add_custom_data(db, query, data): 
     db_exist = os.path.exists(db)                               
     if db_exist:                                                
         connection = sqlite3.connect(db)                        
@@ -53,31 +79,25 @@ def get_data(db_name, key, value):
 
     query_all = 'select * from dhcp;'
     keys = connection.execute(query_all).fetchone().keys()
+    keys.remove(key)
 
-    if not key in keys:
-        print('Данный параметр не поддерживается.',
-              'Допустимые значения параметров: {}'.format(', '.join(keys)),
-              sep='\n')
-    else:
-        keys.remove(key)
-        query_active = "select * from dhcp where {} = ? and active = 1 ORDER BY active DESC".format(key)
-        result_active = connection.execute(query_active, (value,))
-        print('\nDetailed information for host(s) with', key, value)
+    query_active = "select * from dhcp where {} = ? and last_active = 1 ORDER BY active DESC".format(key)
+    result_active = connection.execute(query_active, (value,))
+    print('\nDetailed information for host(s) with', key, value)
+    print('-'*80)
+    for row in result_active:
+        print('\n'.join('{:12}: {}'.format(k, row[k]) for k in keys[:-1]))
         print('-'*80)
-        for row in result_active:
-            print('\n'.join('{:12}: {}'.format(k, row[k]) for k in keys[:-1]))
-            print('-'*80)
 
-        query_inactive = "select * from dhcp where {} = ? and active = 0 ORDER BY active DESC".format(key)
-        result_inactive = connection.execute(query_inactive, (value,))
-        print('\n' + '='*80, 'Inactive values:', '-'*80, sep='\n')
-        for row in result_inactive:
-            print('\n'.join('{:12}: {}'.format(k, row[k]) for k in keys[:-1]))
-            print('-'*80)
+    query_inactive = "select * from dhcp where {} = ? and last_active = 0 ORDER BY active DESC".format(key)
+    result_inactive = connection.execute(query_inactive, (value,))
+    print('\n' + '='*80, 'Inactive values:', '-'*80, sep='\n')
+    for row in result_inactive:
+        print('\n'.join('{:12}: {}'.format(k, row[k]) for k in keys[:-1]))
+        print('-'*80)
 
 def get_all_data(db_name):
     f = '{:17}  {:17} {:4}  {:17}  {:17}'
-    print('В таблице dhcp такие записи:')
     print('-'*80)
     connection = sqlite3.connect(db_name)
     for line in connection.execute('select * from dhcp;'):
