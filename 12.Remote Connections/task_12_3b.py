@@ -101,19 +101,19 @@ def send_commands(device_list, config=[], show='', filename=''):
     password = getpass('Введите пароль: ')
     secret = getpass('Введите пароль для enable: ')
 
-    for box in device_list:
-        if ping_ip(box['ip']):
-            box['username'] = username
-            box['password'] = password
-            box['secret'] = secret
-            if device_list and show:
-                pprint(send_show_command(device_list, show))
-            elif device_list and config:
-                pprint(send_config_commands(device_list, commands))
-            elif device_list and filename:
-                pprint(send_commands_from_file(device_list, filename))
-        else:
+    for box in device_list.copy():
+        box['username'] = username
+        box['password'] = password
+        box['secret'] = secret
+        if not ping_ip(box['ip']):
             print('Device {} Unreachable'.format(box['ip']))
+            device_list.remove(box)
+    if show:
+        pprint(send_show_command(device_list, show))
+    elif config:
+        pprint(send_config_commands(device_list, commands))
+    elif filename:
+        pprint(send_commands_from_file(device_list, filename))
 
 
 devices_params = get_device_list('devices2.yaml')
