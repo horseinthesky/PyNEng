@@ -49,7 +49,7 @@ def send_config_commands(device_list, config_commands, output=True):
         bad_commands = []
         with ConnectHandler(**device) as ssh:
             ssh.enable()
-            for command in config_commands:
+            for command in config_commands.copy():
                 result = ssh.send_config_set(command)
                 error = check_for_errors(result)
                 if error:

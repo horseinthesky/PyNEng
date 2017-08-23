@@ -1,108 +1,80 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
-Задание 12.4
 
-В задании используется пример из раздела про [модуль threading](book/chapter12/5a_threading.md).
-
-Переделать пример таким образом, чтобы:
-* вместо функции connect_ssh, использовалась функция send_commands из задания 12.3
- * переделать функцию send_commands, чтобы использовалась очередь и функция conn_threads по-прежнему возвращала словарь с результатами.
- * Проверить работу со списком команд, с командами из файла, с командой show
-
-'''
 
 from netmiko import ConnectHandler
-from pprint import pprint
 import yaml
 import threading
 from queue import Queue
-
-commands = ['logging 10.255.255.1',
-            'logging buffered 20010',
-            'no logging console']
-
-command = "sh ip int br"
-
-devices = yaml.load(open('devices.yaml'))
+from pprint import pprint
 
 
-def send_show_command(device_list, show_command):
-    result = {}
-
-    for device_params in device_list:
-        ip = device_params['ip']
-        print('Connecting to {}'.format(ip))
-        with ConnectHandler(**device_params) as ssh:
-            ssh.enable()
-            device_result = ssh.send_command(command)
-            result[ip] = device_result
-    queue.put(result)
-    return result
+def send_show_command(device, show_command):
+    output_dict = {}
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.send_command(show_command)
+        output_dict[device['ip']] = result
+    return output_dict
 
 
-def send_config_commands(device_list, config_commands, output=True):
-    result = {}
-
-    for device_params in device_list:
-        ip = device_params['ip']
-        print('Connecting to {}'.format(ip))
-        with ConnectHandler(**device_params) as ssh:
-            ssh.enable()
-            device_result = ssh.send_config_set(config_commands)
-            result[ip] = device_result
-    return result
+def send_config_commands(device, config_commands, output=True):
+    output_dict = {}
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.send_config_set(config_commands)
+        if output:
+            pprint(result)
+        output_dict[device['ip']] = result
+    return output_dict
 
 
-def send_commands_from_file(device_list, filename):
-    result = {}
-
-    for device_params in device_list:
-        ip = device_params['ip']
-        print('Connecting to {}'.format(ip))
-        with ConnectHandler(**device_params) as ssh:
-            ssh.enable()
-            device_result = ssh.send_config_from_file(filename)
-            result[ip] = device_result
-    return result
+def send_commands_from_file(device, filename):
+    output_dict = {}
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.send_config_from_file(filename)
+        output_dict[device['ip']] = result
+    return output_dict
 
 
-def send_commands(device_list, config=[], show='', filename='', queue):
+def send_commands(device_list, queue, config=[], show='', filename=''):
     if show:
-        queue.put(pprint(send_show_command(device_list, show)))
-    elif config:
-        queue.put(pprint(send_config_commands(device_list, commands)))
-    elif filename:
-        queue.put(pprint(send_commands_from_file(device_list, filename)))
+        result = send_show_command(device_list, show)
+    if config:
+        result = send_config_commands(device_list, config)
+    if filename:
+        result = send_commands_from_file(device_list, filename)
+    queue.put(result)
 
 
-def connect_ssh(device_dict, command, queue):
-
-    ssh = ConnectHandler(**device_dict)
-    ssh.enable()
-    result = ssh.send_command(command)
-    print("Connection to device %s" % device_dict['ip'])
-
-    queue.put({device_dict['ip']: result})
-
-
-def conn_threads(function, devices, command):
+def conn_threads(function, devices, **kwargs):
     threads = []
-    q = Queue()
+    queue = Queue()
 
     for device in devices:
-        th = threading.Thread(target=function, args=(device, False, command, False, q))
+        th = threading.Thread(target=function,
+                              args=(device, queue),
+                              kwargs=kwargs)
         th.start()
         threads.append(th)
 
     for th in threads:
         th.join()
 
-    results = []
+    results = {}
     for t in threads:
-        results.append(q.get())
+        results.update(queue.get())
 
     return results
 
 
-print(conn_threads(send_commands, devices['routers'], command))
+if __name__ == "__main__":
+    commands = ['logging 10.255.255.1',
+                'logging buffered 20010',
+                'no logging console']
+    devices = yaml.load(open('devices.yaml'))
+
+    # pprint(conn_threads(send_commands, devices['routers'], show='sh ip int br'))
+    pprint(conn_threads(send_commands, devices['routers'], config=commands))
+    # pprint(conn_threads(send_commands, devices['routers'], filename='config.txt'))
