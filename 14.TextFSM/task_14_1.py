@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 Задание 14.1
@@ -16,17 +17,23 @@
 
 Пример из раздела:
 '''
-
-import sys
+from sys import argv
 import textfsm
-from tabulate import tabulate
+import tabulate
 
-template = sys.argv[1]
+template_file = sys.argv[1]
 output_file = sys.argv[2]
 
-with open(template) as f, open(output_file) as output:
-    re_table = textfsm.TextFSM(f)
-    header = re_table.header
-    result = re_table.ParseText(output.read())
-    print(result)
-    print(tabulate(result, headers=header))
+
+def parse_output(template, output):
+    with open(template) as t, open(output) as o:
+        re_table = textfsm.TextFSM(t)
+        header = re_table.header
+        result = re_table.ParseText(o.read())
+        result.insert(0, header)
+    return result
+
+
+if __name__ == '__main__':
+    headers, routes = parse_output[0], parse_output[1:]
+    print(tabulate(routes,headers=headers))
