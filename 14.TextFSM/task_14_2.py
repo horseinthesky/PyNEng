@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 Задание 14.2
@@ -17,4 +18,30 @@
 Проверить работу функции на примере обработки
 команды sh ip int br (шаблон и вывод есть в разделе).
 '''
+from sys import argv
+import textfsm
+import csv
 
+template_file = argv[1]
+output_file = argv[2]
+csv_file = argv[3]
+
+
+def parse_output(template, output):
+    with open(template) as t, open(output) as o:
+        re_table = textfsm.TextFSM(t)
+        header = re_table.header
+        result = re_table.ParseText(o.read())
+        result.insert(0, header)
+    return result
+
+
+def list_to_csv(params, filename):
+    with open(filename, 'w') as f:
+        writer = csv.writer(f, delimiter='|')
+        for row in params:
+            writer.writerow(row)
+
+
+if __name__ == '__main__':
+    list_to_csv(parse_output(template_file, output_file), csv_file)

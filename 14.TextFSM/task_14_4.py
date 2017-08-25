@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 Задание 14.4
@@ -8,7 +9,8 @@
 Параметры функции:
 * словарь атрибутов, в котором находятся такие пары ключ: значение:
  * 'Command': команда
- * 'Vendor': вендор (обратите внимание, что файл index отличается от примера, который использовался в разделе, поэтому вам нужно подставить тут правильное значение)
+ * 'Vendor': вендор (обратите внимание, что файл index отличается от примера,
+     который использовался в разделе, поэтому вам нужно подставить тут правильное значение)
 * имя файла, где хранится соответствие между командами и шаблонами (строка)
  * значение по умолчанию аргумента - index
 * каталог, где хранятся шаблоны и файл с соответствиями (строка)
@@ -23,23 +25,26 @@
 
 Пример из раздела:
 '''
-
+from tabulate import tabulate
 import clitable
 
-output_sh_ip_route_ospf = open('output/sh_ip_route_ospf.txt').read()
+output_sh_ip_int_br = open('output/sh_ip_int_br.txt').read()
+attributes_dict = {'Command': 'show ip int br', 'Vendor': 'cisco_ios'}
 
-cli_table = clitable.CliTable('index', 'templates')
-attributes = {'Command': 'show ip route ospf', 'Vendor': 'Cisco'}
 
-cli_table.ParseCmd(output_sh_ip_route_ospf, attributes)
+def parse_command_dynamic(attributes, output, index='index', templates='templates'):
+    cli_table = clitable.CliTable(index, templates)
+    cli_table.ParseCmd(output_sh_ip_int_br, attributes)
 
-print('CLI Table output:\n', cli_table)
-print('Formatted Table:\n', cli_table.FormattedTable())
+    data_rows = [list(row) for row in cli_table]
+    header = list(cli_table.header)
 
-data_rows = [list(row) for row in cli_table]
-header = list(cli_table.header)
+    result = {}
+    for i in range(len(header)):
+        column = [el[i] for el in data_rows]
+        result[header[i]] = column
+    return result
 
-print(header)
-for row in data_rows:
-    print(row)
 
+if __name__ == '__main__':
+    print(tabulate(parse_command_dynamic(attributes_dict, output_sh_ip_int_br), headers='keys'))

@@ -30,7 +30,8 @@ def parse_output(template, output):
         re_table = textfsm.TextFSM(t)
         header = re_table.header
         result = re_table.ParseText(o.read())
-    return [header] + result
+        result.insert(0, header)
+    return result
 
 
 if __name__ == '__main__':
