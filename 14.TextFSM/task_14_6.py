@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 Задание 14.6
 
 Это задание похоже на задание 14.5, но в этом задании подключения надо выполнять параллельно.
 
-Для этого надо использовать функции connect_ssh и conn_processes (пример из раздела multiprocessing) и функцию parse_command_dynamic из упражнения 14.4.
+Для этого надо использовать функции connect_ssh и conn_processes (пример из раздела multiprocessing)
+и функцию parse_command_dynamic из упражнения 14.4.
 
 В этом упражнении нужно создать функцию send_and_parse_command_parallel:
 * она должна использовать внутри себя функции connect_ssh, conn_processes и parse_command_dynamic
@@ -22,15 +24,15 @@
 '''
 
 import multiprocessing
-import sys
 import yaml
-from pprint import pprint
-
+from tabulate import tabulate
+from task_14_4 import parse_command_dynamic
 from netmiko import ConnectHandler
 
 
-COMMAND = sys.argv[1]
+command = 'sh ip int br'
 devices = yaml.load(open('devices.yaml'))
+attributes_dict = {'Command': 'show ip int br', 'Vendor': 'cisco_ios'}
 
 
 def connect_ssh(device_dict, command, queue):
@@ -62,5 +64,17 @@ def conn_processes(function, devices, command):
     return results
 
 
-pprint(conn_processes(connect_ssh, devices['routers'], COMMAND))
+def send_and_parse_command_parallel(devices, command, attributes):
+    output_list = conn_processes(connect_ssh, devices['routers'], command)
 
+    result = {}
+    for box in output_list:
+        for ip, output in box.items():
+            result[ip] = parse_command_dynamic(attributes, output)
+    return result
+
+
+if __name__ == '__main__':
+    table_view = send_and_parse_command_parallel(devices, command, attributes_dict)
+    for box in table_view:
+        print(tabulate(table_view[box], headers='keys'), '\n' + '='*60)

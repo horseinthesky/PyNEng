@@ -34,7 +34,7 @@ attributes_dict = {'Command': 'show ip int br', 'Vendor': 'cisco_ios'}
 
 def parse_command_dynamic(attributes, output, index='index', templates='templates'):
     cli_table = clitable.CliTable(index, templates)
-    cli_table.ParseCmd(output_sh_ip_int_br, attributes)
+    cli_table.ParseCmd(output, attributes)
 
     data_rows = [list(row) for row in cli_table]
     header = list(cli_table.header)
