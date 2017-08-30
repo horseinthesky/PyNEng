@@ -1,0 +1,26 @@
+[
+    {
+        "intf": "Ethernet0/0",
+        "ipaddr": "10.10.30.2",
+        "proto": "up",
+        "status": "up"
+    },
+    {
+        "intf": "Ethernet0/1",
+        "ipaddr": "unassigned",
+        "proto": "down",
+        "status": "administratively down"
+    },
+    {
+        "intf": "Ethernet0/2",
+        "ipaddr": "unassigned",
+        "proto": "down",
+        "status": "administratively down"
+    },
+    {
+        "intf": "Ethernet0/3",
+        "ipaddr": "unassigned",
+        "proto": "down",
+        "status": "administratively down"
+    }
+]

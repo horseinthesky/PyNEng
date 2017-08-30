@@ -1,0 +1,5 @@
+---
+
+hostname: Ansible_SW1
+mgmnt_int: VLAN10
+mgmnt_ip: 10.10.30.50

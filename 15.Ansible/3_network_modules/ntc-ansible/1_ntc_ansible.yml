@@ -1,7 +1,7 @@
 ---
 
 - name: Run show commands on router
-  hosts: 192.168.100.1
+  hosts: 10.10.30.1
   gather_facts: false
   connection: local
 
@@ -18,4 +18,4 @@
         template_dir: "library/ntc-ansible/ntc-templates/templates"
       register: result
 
-    - debug: var=result
+    - debug: var=result.response[0]
