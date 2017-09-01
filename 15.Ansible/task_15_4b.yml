@@ -10,7 +10,7 @@
     - name: Config ACL
       ios_config:
         before:
-          - interface Ethernet0/1
+          - interface Ethernet 0/1
           - no ip access-group INET-to-LAN in
           - exit
           - no ip access-list extended INET-to-LAN
@@ -21,6 +21,12 @@
           - permit tcp 10.0.1.0 0.0.0.255 any eq 22
           - permit icmp any any
         after:
-          - interface Ethernet0/1
+          - interface Ethernet 0/1
           - ip access-group INET-to-LAN in
+        match: exact
         provider: "{{ cli }}"
+      register: result
+
+    - name: Show commands
+      debug: var=result.commands
+      when: result.changed
