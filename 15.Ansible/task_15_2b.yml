@@ -1,0 +1,23 @@
+---
+
+- name: Grab routers facts
+  hosts: cisco-routers
+  connection: local
+
+  tasks:
+
+    - name: fascts
+      ios_facts: 
+        gather_subset: all
+        provider: "{{ cli }}"
+
+    - name: Run sh ip ipv6 int br
+      ios_command:
+        commands: 
+          - sh ipv6 int br
+        provider: "{{ cli }}"
+      register: show_result
+
+    - name: Debug registered var
+      debug: var=show_result
+      when: ansible_net_all_ipv6_addresses

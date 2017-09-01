@@ -1,0 +1,16 @@
+---
+
+- name: Run sh arp command on routers
+  hosts: cisco-routers
+  connection: local
+
+  tasks:
+
+    - name: run sh arp
+      ios_command:
+          commands: show arp
+          provider: "{{ cli }}"
+      register: sh_arp_output
+
+    - name: Debug registered var
+      debug: var=sh_arp_output.stdout_lines
