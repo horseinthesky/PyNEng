@@ -26,6 +26,9 @@ devices = [{'hostname': 'r1', 'port': '32769'},
 def save_cfg(device_dict, data):
     with open(device_dict['hostname'] + '.txt', 'w') as f:
         f.write(data.decode('ascii'))
+    lines = open(device_dict['hostname'] + '.txt').readlines()
+    with open(device_dict['hostname'] + '.txt', 'w') as f:
+        f.writelines([line for line in lines[1:-2] if line])
     print('Data from ' + device_dict['hostname'] + ' saved to ' + device_dict['hostname'] + '.txt')
 
 
