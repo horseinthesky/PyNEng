@@ -36,7 +36,7 @@ def grab_cfg(device_dict):
     tn.read_until(('term leng 0').encode('ascii'))
     tn.write(('show run\n').encode('ascii'))
     time.sleep(1)
-    tn.read_until(('Current configuration').encode('ascii'))
+    tn.expect([('Current configuration.*').encode('ascii')])
     data = tn.read_very_eager()
     save_cfg(device_dict, data)
     print('Data from ' + device_dict['hostname'] + ' grabbed')
