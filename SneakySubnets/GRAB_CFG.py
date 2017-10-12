@@ -26,7 +26,7 @@ devices = [{'hostname': 'r1', 'port': '32769'},
 def save_cfg(device_dict, data):
     with open(device_dict['hostname'] + '.txt', 'w') as f:
         f.write(data.decode('ascii'))
-    print('Data from ' + device_dict['hostname'] + ' saved to' + f)
+    print('Data from ' + device_dict['hostname'] + ' saved to ' + device_dict['hostname'] + '.txt')
 
 
 def grab_cfg(device_dict):
@@ -38,8 +38,8 @@ def grab_cfg(device_dict):
     time.sleep(1)
     tn.expect([('Current configuration.*').encode('ascii')])
     data = tn.read_very_eager()
-    save_cfg(device_dict, data)
     print('Data from ' + device_dict['hostname'] + ' grabbed')
+    save_cfg(device_dict, data)
 
 
 def multi_conn(function, devices, limit=10):
@@ -47,5 +47,6 @@ def multi_conn(function, devices, limit=10):
         executor.map(function, devices)
 
 
-multi_conn(grab_cfg, devices)
-print('All done')
+if __name__ == '__main__':
+    multi_conn(grab_cfg, devices)
+    print('All done')
