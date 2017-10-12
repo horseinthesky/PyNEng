@@ -3,12 +3,26 @@
 
 from jinja2 import Environment, FileSystemLoader
 import re
+import os
 
-env = Environment(loader=FileSystemLoader('templates'))
+env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True, lstrip_blocks=True)
 address_template = env.get_template('addresses.j2')
 policy_template = env.get_template('policy.j2')
 
+addresses_filename = 'addresses.txt'
+policy_filename = 'policy.txt'
+
 regex = re.compile(r'set policy id \d+ .*"(10.\d+.\d+.\d+)/(\d+)" .*')
+
+try:
+    os.remove(addresses_filename)
+except OSError:
+    pass
+
+try:
+    os.remove(policy_filename)
+except OSError:
+    pass
 
 
 def convert_netmask_to_octets(netmask):
@@ -33,5 +47,10 @@ with open('sg.txt') as f:
                            'netmask': netmask,
                            'octet_mask': convert_netmask_to_octets(netmask),
                            }
-            write_data('addresses.txt', address_template.render(policy_dict))
-            write_data('policy.txt', policy_template.render(policy_dict))
+
+            # Исключения
+            if subnet == '10.64.0.0':
+                policy_dict['srcintf'] = 'TO_VPN0591'
+
+            write_data(addresses_filename, address_template.render(policy_dict))
+            write_data(policy_filename, policy_template.render(policy_dict))

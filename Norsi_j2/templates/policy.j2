@@ -1,7 +1,7 @@
 edit {{ policy_number }}
     set name {{ vpn_name | default('DSZN_Norsi_VPN0479_') }}{{ subnet }}/{{ netmask }}
     set srcintf {{ srcintf | default('TO_DSZN_VPN0479') }}
-    set dstintf {{ dstintf | default('INET_GATE_Norsi') }}
+    set dstintf {{ dstintf | default('INET_DSZN_Norsi') }}
     set srcaddr {{ vpn_name | default('DSZN_Norsi_VPN0479_') }}{{ subnet }}/{{ netmask }}
     set dstaddr all
     set action accept
