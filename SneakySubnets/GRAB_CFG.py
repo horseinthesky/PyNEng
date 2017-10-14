@@ -47,7 +47,7 @@ def grab_cfg(device_dict):
     save_cfg(hostname, data)
 
 
-def multi_conn(function, devices, limit=10):
+def multi_conn(function, devices, limit=14):
     with ProcessPoolExecutor(max_workers=limit) as executor:
         executor.map(function, devices)
 
