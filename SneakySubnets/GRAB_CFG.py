@@ -24,11 +24,8 @@ devices = [{'hostname': 'r1', 'port': '32769'},
 
 
 def save_cfg(device_dict, data):
-    with open(device_dict['hostname'] + '.txt', 'w') as f:
-        f.write(data.decode('ascii'))
-    lines = open(device_dict['hostname'] + '.txt').readlines()
-    with open(device_dict['hostname'] + '.txt', 'w') as f:
-        f.writelines([line for line in lines[1:-2] if line])
+    with open(device_dict['hostname'] + '.txt', 'wb') as f:
+        f.writelines((line + '\n').encode('ascii') for line in data.split('\n')[1:-2])
     print('Data from ' + device_dict['hostname'] + ' saved to ' + device_dict['hostname'] + '.txt')
 
 
@@ -36,11 +33,10 @@ def grab_cfg(device_dict):
     tn = Telnet(eve_ip, device_dict['port'])
     tn.write(('\r\n').encode('ascii'))
     tn.write(('term leng 0\n').encode('ascii'))
-    tn.read_until(('term leng 0').encode('ascii'))
     tn.write(('show run\n').encode('ascii'))
     time.sleep(1)
     tn.expect([('Current configuration.*').encode('ascii')])
-    data = tn.read_very_eager()
+    data = tn.read_very_eager().decode('ascii')
     print('Data from ' + device_dict['hostname'] + ' grabbed')
     save_cfg(device_dict, data)
 
