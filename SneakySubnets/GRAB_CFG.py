@@ -23,22 +23,23 @@ devices = [{'hostname': 'r1', 'port': '32769'},
            {'hostname': 'sw4', 'port': '32782'}]
 
 
-def save_cfg(device_dict, data):
-    with open(device_dict['hostname'] + '.txt', 'wb') as f:
+def save_cfg(hostname, data):
+    with open(hostname + '.txt', 'wb') as f:
         f.writelines((line + '\n').encode('ascii') for line in data.split('\n')[1:-2])
-    print('Data from ' + device_dict['hostname'] + ' saved to ' + device_dict['hostname'] + '.txt')
+    print('Data from ' + hostname + ' saved to ' + hostname + '.txt')
 
 
 def grab_cfg(device_dict):
-    tn = Telnet(eve_ip, device_dict['port'])
+    hostname, port = device_dict['hostname'], device_dict['port']
+    tn = Telnet(eve_ip, port)
     tn.write(('\r\n').encode('ascii'))
     tn.write(('term leng 0\n').encode('ascii'))
     tn.write(('show run\n').encode('ascii'))
     time.sleep(1)
     tn.expect([('Current configuration.*').encode('ascii')])
     data = tn.read_very_eager().decode('ascii')
-    print('Data from ' + device_dict['hostname'] + ' grabbed')
-    save_cfg(device_dict, data)
+    print('Data from ' + hostname + ' grabbed')
+    save_cfg(hostname, data)
 
 
 def multi_conn(function, devices, limit=10):
