@@ -27,10 +27,7 @@ devices = [
 
 def save_cfg(hostname, data):
     with open(hostname + '.txt', 'wb') as f:
-        f.writelines(
-            (line + '\n').encode('ascii')
-            for line in data.split('\n')[1:-2]
-        )
+        f.write(data)
     print('Data from {0} saved to {0}.txt'.format(hostname))
 
 
@@ -41,8 +38,8 @@ def grab_cfg(device_dict):
     tn.write(('term leng 0\n').encode('ascii'))
     tn.write(('show run\n').encode('ascii'))
     time.sleep(1)
-    tn.expect([('Current configuration.*').encode('ascii')])
-    data = tn.read_very_eager().decode('ascii')
+    tn.expect([('!\r\nversion.*\r\n').encode('ascii')])
+    data = tn.expect([('!\r\nend').encode('ascii')])[2]
     print('Data from {} grabbed'.format(hostname))
     save_cfg(hostname, data)
 
