@@ -26,12 +26,22 @@ devices = [
 
 
 def save_cfg(hostname, data):
+    '''
+    Input: hostname of a device, a string
+    and device cfg in binary format
+    Creates a file and writes device cfg to it
+    '''
     with open(hostname + '.txt', 'wb') as f:
         f.write(data)
     print('Data from {0} saved to {0}.txt'.format(hostname))
 
 
 def grab_cfg(device_dict):
+    '''
+    Input: device dictionary
+    Grabs running config from the device
+    Calls save_cfg function to write data to a file
+    '''
     hostname, port = device_dict['hostname'], device_dict['port']
     tn = Telnet(eve_ip, port)
     tn.write(('\r\n').encode('ascii'))
