@@ -38,7 +38,7 @@ pass_OK = False
 while not pass_OK:
     if len(list) != 4:
         print('Incorrect IPv4 address')
-        ip = input('Введите IP адрес в формате 10.1.1.5: ') 
+        ip = input('Введите IP адрес в формате 10.1.1.5: ')
         list = ip.split('.')
     elif not list[0].isdigit() or not list[1].isdigit() or not list[2].isdigit() or not list[3].isdigit():
         print('Incorrect IPv4 address')
@@ -61,4 +61,3 @@ else:
         print('unassigned')
     else:
         print('unused')
-

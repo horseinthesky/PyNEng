@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from lxml import etree
 from ncclient import manager
 
 host = '10.10.10.6'
@@ -30,7 +31,6 @@ with manager.connect(
      """
 
     nc_get_reply = device.get(('subtree', get_filter))
-    ns_map = {'xmlns': 'NX_NETCONF_GET.py'}
-    xml_rsp = nc_get_reply.find('.//primary', ns_map)
-    value = xml_rsp.text
-    print(value)
+    address = nc_get_reply.data_ele[0][0][0][3][0][0][0].text
+    mask = nc_get_reply.data_ele[0][0][0][3][0][0][1].text
+    print('{} {}'.format(address, mask))
