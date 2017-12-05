@@ -42,7 +42,7 @@ with open('sg.txt') as f:
         if match:
             i += 1
             subnet, netmask = match.groups()
-            policy_dict = {'policy_number': int(i),
+            policy_dict = {'policy_number': str(i),
                            'subnet': subnet,
                            'netmask': netmask,
                            'octet_mask': convert_netmask_to_octets(netmask),
