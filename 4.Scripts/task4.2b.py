@@ -1,5 +1,5 @@
-#!/usr/bin/env python3                                                          
-# -*- coding: utf-8 -*- 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
 Задание 4.2b
@@ -16,36 +16,34 @@
 """
 
 london_co = {
-    'r1' : {
-    'location': '21 New Globe Walk',
-    'vendor': 'Cisco',
-    'model': '4451',
-    'ios': '15.4',
-    'ip': '10.255.0.1'
+    'r1': {
+        'location': '21 New Globe Walk',
+        'vendor': 'Cisco',
+        'model': '4451',
+        'ios': '15.4',
+        'ip': '10.255.0.1'
     },
-    'r2' : {
-    'location': '21 New Globe Walk',
-    'vendor': 'Cisco',
-    'model': '4451',
-    'ios': '15.4',
-    'ip': '10.255.0.2'
+    'r2': {
+        'location': '21 New Globe Walk',
+        'vendor': 'Cisco',
+        'model': '4451',
+        'ios': '15.4',
+        'ip': '10.255.0.2'
     },
-    'sw1' : {
-    'location': '21 New Globe Walk',
-    'vendor': 'Cisco',
-    'model': '3850',
-    'ios': '3.6.XE',
-    'ip': '10.255.0.101',
-    'vlans': '10,20,30',
-    'routing': True
+    'sw1': {
+        'location': '21 New Globe Walk',
+        'vendor': 'Cisco',
+        'model': '3850',
+        'ios': '3.6.XE',
+        'ip': '10.255.0.101',
+        'vlans': '10,20,30',
+        'routing': True
     }
 }
 
 """Решение"""
 print(london_co, '\n')
 device = input('Enter device name: ')
-par = input('Enter parameter name {}: '.format(tuple(london_co[(device)].keys())))
+par = input('Enter parameter name {}: '.format(tuple(london_co[device].keys())))
 
 print(london_co[device][par])
-
-
