@@ -1,0 +1,19 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Web interface for my scripts{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('list_devices') }}">Devices</a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}

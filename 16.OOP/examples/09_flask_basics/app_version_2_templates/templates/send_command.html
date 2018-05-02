@@ -1,0 +1,8 @@
+<!doctype html>
+<title>Hello from Flask</title>
+{% if command_output %}
+<h1>Sending {{command}} to device {{device_ip}}</h1>
+<pre>{{ command_output }}</pre>
+{% else%}
+<h1>Не удалось отправить команду {{command}} на {{device_ip}}</h1>
+{% endif%}

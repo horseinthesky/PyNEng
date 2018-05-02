@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<table class="table table-hover">
+    {% set headers = devices[0]|sort %}
+	<tr>
+    {% for key in headers %}
+        <th>{{key}}</th>
+    {% endfor %}
+	</tr>
+	{% for device in devices %}
+	<tr>
+        {% for key in headers %}
+		<td>{{device[key]}}</td>
+        {% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from "_render_form.html" import render_field %}
+  
+{% block page_content %}
+<h1>Send command to device</h1>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <dl>
+    {{ render_field(form.device_type) }}
+    {{ render_field(form.ipaddress) }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.enable_password) }}
+    {{ render_field(form.command) }}
+    </dl>
+    <p>
+    {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}
