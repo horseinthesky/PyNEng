@@ -62,7 +62,6 @@ class Topology:
         self.topology = self._normalize(topology_dict)
 
     def _normalize(self, raw_topology):
-        print(raw_topology)
         formatted_topology = {}
         for pair in raw_topology:
             r_device, l_device = pair, raw_topology[pair]
