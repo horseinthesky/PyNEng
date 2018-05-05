@@ -41,4 +41,17 @@ topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('SW1', 'Eth0/2'): ('R2', 'Eth0/0'),
                     ('SW1', 'Eth0/3'): ('R3', 'Eth0/0')}
 
+'''Решение'''
 
+
+class Topology:
+    def __init__(self, raw_topology):
+        self.raw_topology = raw_topology
+
+    def topology(self):
+        formatted_topology = {}
+        for pair in self.raw_topology:
+            r_device, l_device = pair, self.raw_topology[pair]
+            if l_device not in formatted_topology.keys():
+                formatted_topology.update({r_device: l_device})
+        return formatted_topology
