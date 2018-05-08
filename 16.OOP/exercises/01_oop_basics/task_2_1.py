@@ -29,3 +29,19 @@ Out[4]: 'Interface                  IP-Address      OK? Method Status           
 import netmiko
 
 
+# Решение
+class CiscoSSH:
+    def __init__(self, username, password, enable_password, ip):
+        device_params = {
+            'device_type': 'cisco_ios',
+            'ip': ip,
+            'username': username,
+            'password': password,
+            'secret': enable_password
+        }
+        self.ssh = self._connection(device_params)
+
+    def _connection(self, params):
+        conn = netmiko.ConnectHandler(**params)
+        conn.enable()
+        return conn
