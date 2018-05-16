@@ -17,16 +17,22 @@
 Проверить работу генератора на примере файла config_r1.txt.
 '''
 import re
+from itertools import dropwhile, takewhile
 
 
 def get_intf_ip(filename):
     with open(filename) as f:
-        for line in f:
-            if 'interface' in line:
-                interface = line.split()[1]
-            match = re.search(regex, line)
-            if match:
-                yield interface, match[1], match[2]
+        while True:
+            begin = dropwhile(lambda x: 'interface' not in x, f)
+            lines = takewhile(lambda y: '!' not in y, begin)
+            int_ip = ''.join(lines)
+            print(int_ip)
+            if not int_ip:
+                return
+            else:
+                match = re.search(regex, int_ip)
+                if match:
+                    yield match.groups()
 
 
-regex = 'ip address (\S+) (\S+)\n'
+regex = 'interface (\S+)\n.*ip address (\S+) (\S+)\n'

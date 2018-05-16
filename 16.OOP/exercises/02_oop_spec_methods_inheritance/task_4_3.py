@@ -25,9 +25,15 @@ from netmiko.cisco.cisco_ios import CiscoIosBase
 
 device_params = {
     'device_type': 'cisco_ios',
-    'ip': '192.168.100.1',
-    'username': 'cisco',
-    'password': 'cisco',
-    'secret': 'cisco'
+    'ip': '192.168.0.150',
+    'username': 'admin',
+    'password': 'admin',
+    'secret': 'admin'
 }
 
+
+# Решение
+class MyNetmiko(CiscoIosBase):
+    def __init__(self, **device_params):
+        super().__init__(**device_params)
+        self.enable()

@@ -16,3 +16,15 @@
 Проверить работу генератора на примере файла config_r1.txt.
 
 '''
+import re
+
+
+def get_ip_from_cfg(filename):
+    with open(filename) as f:
+        for line in f:
+            match = re.search(regex, line)
+            if match:
+                yield match.groups()
+
+
+regex = '(\d+.\d+.\d+.\d+) +(\d+.\d+.\d+.\d+)'
