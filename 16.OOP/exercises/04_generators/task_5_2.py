@@ -20,3 +20,15 @@ Out[2]: 'Current configuration : 4052 bytes\n!\n! Last configuration change at 1
 
 '''
 
+
+def read_file_in_chunks(filename, number_of_lines):
+    with open(filename) as f:
+        index = 0
+        result = ''
+        for line in f:
+            result += line
+            index += 1
+            if index >= int(number_of_lines):
+                yield result
+                index = 0
+                result = ''

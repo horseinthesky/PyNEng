@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 Задание 5.3
 
@@ -62,13 +61,22 @@ def filter_by_mask(iterable, mask):
             yield line
 
 
-f =  open('rib.table.lg.ba.ptt.br-BGP.csv')
+def filter_route_by_attr(iterable, attr, value):
+    for line in iterable:
+        attribute = getattr(line, attr, None)
+        if attribute == value:
+            yield line
+
+
+f = open('rib.table.lg.ba.ptt.br-BGP.csv')
 reader = csv.reader(f)
 
 headers = next(reader)
 Route = namedtuple("Route", headers)
 route_tuples = map(Route._make, reader)
 
-nhop_23 = filter_by_nexthop(route_tuples, '200.219.145.23')
-mask_23 = filter_by_mask(nhop_23, '22')
+#  nhop_23 = filter_by_nexthop(route_tuples, '200.219.145.23')
+#  mask_23 = filter_by_mask(nhop_23, '22')
 
+nhop_23 = filter_route_by_attr(route_tuples, 'nexthop', '200.219.145.23')
+mask_22 = filter_route_by_attr(nhop_23, 'netmask', '22')

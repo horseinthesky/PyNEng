@@ -18,3 +18,24 @@
 Проверить работу генератора на примере конфигураций config_r1.txt и config_r2.txt.
 
 '''
+import re
+
+
+def get_intf_ip(list_of_files):
+    if isinstance(list_of_files, str):
+        list_of_files = [list_of_files]
+    for filename in list_of_files:
+        with open(filename) as f:
+            device_dict = {}
+            for line in f:
+                if 'hostname' in line:
+                    hostname = line.split()[1]
+                if 'interface' in line:
+                    interface = line.split()[1]
+                match = re.search(regex, line)
+                if match:
+                    device_dict.update({interface: match.groups()})
+            yield {hostname: device_dict}
+
+
+regex = 'ip address (\S+) (\S+)\n'

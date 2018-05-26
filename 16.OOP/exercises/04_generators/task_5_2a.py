@@ -6,4 +6,14 @@
 чтобы внутри использовалась функция islice из модуля itertools.
 
 '''
+from itertools import islice
 
+
+def read_file_in_chunks(filename, number_of_lines):
+    with open(filename) as f:
+        while True:
+            block = ''.join(islice(f, int(number_of_lines)))
+            if block:
+                yield block
+            else:
+                break
