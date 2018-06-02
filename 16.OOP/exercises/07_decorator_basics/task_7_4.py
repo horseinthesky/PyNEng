@@ -34,18 +34,25 @@ from netmiko import ConnectHandler
 
 device_params = {
     'device_type': 'cisco_ios',
-    'ip': '192.168.100.1',
-    'username': 'cisco',
-    'password': 'cisco',
-    'secret': 'cisco'
+    'ip': '192.168.0.150',
+    'username': 'admin',
+    'password': 'admin',
+    'secret': 'admin'
 }
 
 
+def add_verbose(func):
+    def inner(*args, verbose=False, **kwargs):
+        if verbose is True:
+            print('Вызываем', func.__name__)
+            print('Позиционные аргументы:', args)
+        return func(*args, **kwargs)
+    return inner
 
+
+@add_verbose
 def send_show_command(params, command):
     with ConnectHandler(**params) as ssh:
         ssh.enable()
         result = ssh.send_command(command)
     return result
-
-
