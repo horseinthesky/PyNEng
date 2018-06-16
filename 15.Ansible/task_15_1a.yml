@@ -8,8 +8,8 @@
 
     - name: run sh arp
       ios_command:
-          commands: show arp
-          provider: "{{ cli }}"
+        commands: show arp
+        provider: "{{ cli }}"
       register: sh_arp_output
 
     - name: Debug registered var
