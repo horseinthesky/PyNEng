@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+'''
+Задание 8.2a
+
+Переделать декоратор count_calls из задания 8.2.
+Вместо вывода количества вызовов на стандартный поток вывода, надо записать его в атрибут total_calls.
+
+Пример работы декоратора:
+In [10]: @count_calls
+    ...: def f1():
+    ...:     return False
+    ...:
+
+In [11]: @count_calls
+    ...: def f2():
+    ...:     return False
+    ...:
+
+In [12]: for _ in range(5):
+    ...:     f1()
+    ...:
+
+In [13]: for _ in range(5):
+    ...:     f2()
+    ...:
+
+In [14]: for _ in range(5):
+    ...:     f1()
+    ...:
+
+In [15]: f1.total_calls
+Out[15]: 10
+
+In [16]: f2.total_calls
+Out[16]: 5
+
+'''
+
+
+def count_calls(func):
+    func.calls = 0
+
+    def inner(*args, **kwargs):
+        func.calls += 1
+        setattr(inner, 'total_calls', func.calls)
+        # inner.total_calls = func.calls
+        return func(*args, **kwargs)
+    return inner
+
+
+@count_calls
+def f1():
+    return True
+
+
+@count_calls
+def f2():
+    return False

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+{% if command_output %}
+<h1>Вывод {{command}} с устройства {{device_ip}}</h1>
+<div><pre>{{ command_output }}</pre></div>
+{% else%}
+<h1>Не удалось отправить команду {{command}} на {{device_ip}}</h1>
+{% endif%}
+{% endblock %}

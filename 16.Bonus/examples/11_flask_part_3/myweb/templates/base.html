@@ -1,0 +1,32 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}Web interface for my scripts{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('list_devices') }}">Devices</a></li>
+                <li><a href="{{ url_for('send_command') }}">Отправить команду</a></li>
+                <li><a href="{{ url_for('run_script') }}">Выполнить скрипт</a></li>
+                {% if current_user.is_anonymous %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+{% block content %}
+    <div class="container">
+		{% for message in get_flashed_messages() %}
+		<div class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+		</div>
+		{% endfor %}
+        {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}
