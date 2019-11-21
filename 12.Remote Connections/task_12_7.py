@@ -62,7 +62,7 @@ def send_commands(device, queue, config=[], show='', filename=''):
 
 def conn_processes(function, devices, limit=2, **kwargs):
     results = []
-    devices_groups = (devices[idx:idx+limit]
+    devices_groups = (devices[idx:idx + limit]
                       for idx in range(0, len(devices), limit))
 
     for group in devices_groups:
